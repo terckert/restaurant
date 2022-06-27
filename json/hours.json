@@ -1,0 +1,11 @@
+{
+    "daysAndHours": [
+        {"day": "Tuesday", "hours": "3pm - 10pm"},
+        {"day": "Wednesday", "hours": "3pm - 10pm"},
+        {"day": "Thursday", "hours": "3pm - 10pm"},
+        {"day": "Friday", "hours": "11am - 12am"},
+        {"day": "Saturday", "hours": "11am - 12am"},
+        {"day": "Sunday", "hours": "CLOSED"},
+        {"day": "Monday", "hours": "CLOSED"}
+    ]
+}
