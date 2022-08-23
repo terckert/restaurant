@@ -56,6 +56,12 @@ const updateNavButtons = newlySelectedButton => {
 	clearContentOnPageLoad()
 }
 
+// Used in functions that have option an option classList
+const addClass = (item, classList) => {
+	if (classList != null)
+		item.classList.add(classList)
+}
+
 const generateHomecard = (
 	id,			// Element ID
 	titleText	// Element title Text
@@ -73,14 +79,36 @@ const generateHomecard = (
 	return homecard
 }
 
-const generateAndAppendParagraph = (
-	text, 		// Paragraph text
-	parent		// Paragraph parent
+const generateElementWithInnerText = (
+	elementType,		// Dom element type
+	text,				// Inner Text
+	classList = null	// Optional classlist
 ) => {
-	paragraph = document.createElement('p')
-	paragraph.innerText = text
-	parent.append(paragraph)
+	const ele = document.createElement(elementType)	// Create dom element to be returned
+	ele.innerText = text							// Add inner text
+	if (classList !== null) 						// Check for optional classlist
+		ele.classList.add(classList)				// Add if necessary
+	return ele										// Return new element
 }
+
+// const generateParagraph = (
+// 	text, 				// Paragraph text
+// 	classList = null	// optional classlist
+// ) => {
+// 	paragraph = document.createElement('p')
+// 	paragraph.innerText = text
+// 	addClass(paragraph, classList)
+// 	return paragraph
+// }
+
+// const generateH3 = (
+// 	text,				// Inner text
+// 	classList = null	// optional classlist
+// ) => {
+// 	h3 = document.createElement('h3')
+// 	h3.innerText = text
+
+// }
 
 const generateAndAppendHoursOfOperationTable = (
 	parent		// Table parent
@@ -119,7 +147,11 @@ const buildHome = () => {
     
     // Create freshness guarantee homecard.
     const freshnessGuarantee = generateHomecard('we-rule','Our freshness guarantee...')
-    generateAndAppendParagraph(freshness, freshnessGuarantee)
+    freshnessGuarantee.append(
+		generateElementWithInnerText(
+			'p',
+			freshness
+	))
 
     // Create hours of operation element.
     const hoursOfOp = generateHomecard('hours-table', `Restaurant Hours`)
@@ -127,10 +159,11 @@ const buildHome = () => {
 	
     // Create address element.
     const address = generateHomecard(`address`, `Address`)
-	generateAndAppendParagraph(
-		`101 213th Ave, Buffalo, NY 42069`,
-		address
-	)
+	address.append(
+		generateElementWithInnerText(
+			'p',
+			`101 213th Ave, Buffalo, NY 42069`
+	))
     
 	// Attaching mainbody elements
 	mainBody.append(freshnessGuarantee)
@@ -145,34 +178,34 @@ const buildHome = () => {
  * Menu generation
 ***************************************************************************************/
   
-constMenuItems = [
+const MenuItems = [
 	{
 		"name":"Roast Beef on Weck",
-		"image":"./images/menu-items/beef-on-weck.jpg",
+		"image":"../src/images/menu-items/beef-on-weck.jpg",
 		"credit":`<a href="http://1.bp.blogspot.com/_3sCgoK5pBp8/TC-ZrLzNPoI/AAAAAAAAA4w/n8KPul34_Ng/s1600/DSC_3123.jpg">Blogspot</a>`,
 		"description":"Our famous roast beef piled high on a house-made kimmelweck roll.",
 	},
 	// {
 	// 	"name":"Grilled Cheese",
-	// 	"image":"./images/menu-items/grilled-cheese.jpg",
+	// 	"image":"../src/images/menu-items/grilled-cheese.jpg",
 	// 	"credit":`Photo by <a href="https://unsplash.com/@llioangharad?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Llio Angharad</a> on <a href="https://unsplash.com/s/photos/roast-beef-sandwich?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>`,
 	// 	"description":"",
 	// },
 	{
 		"name":"Bacon Cheeseburger Sliders",
-		"image":"./images/menu-items/sliders.jpg",
+		"image":"../src/images/menu-items/sliders.jpg",
 		"credit":`Photo by <a href="https://unsplash.com/@blitzer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Niklas Rhöse</a> on <a href="https://unsplash.com/s/photos/roast-beef-sandwich?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>`,
 		"description":"Four bacon cheesburger sliders topped with ketchup, mustard, and pickled onions.",
 	},
 	{
 		"name":"Cheeseburger",
-		"image":"./images/menu-items/cheeseburger.jpg",
+		"image":"../src/images/menu-items/cheeseburger.jpg",
 		"credit":`Photo by <a href="https://unsplash.com/@loeees_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Loes Klinker</a> on <a href="https://unsplash.com/s/photos/roast-beef-sandwich?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>`,
 		"description":"Two, seared one-third pound burger patties topped with gooey smoked cheddar, pickles, and pickled onions.",
 	},
 	{
 		"name":"Clams",
-		"image":"./images/menu-items/clams.jpg",
+		"image":"../src/images/menu-items/clams.jpg",
 		"credit":`Photo by <a href="https://unsplash.com/@adriensala?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Adrien Sala</a> on <a href="https://unsplash.com/s/photos/clams?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>`,
 		"description":"Fresh clams sauteed in a white wine, lemon-butter sauce.",
 	},
@@ -186,10 +219,56 @@ constMenuItems = [
 	
 ]
 
+const buildCard = menuItem => {
+	// Create the return element
+	const card = document.createElement('div')
+	card.classList.add('card')
+	
+	// Menu item name
+	card.append(
+		generateElementWithInnerText(
+			'h3',
+			menuItem['name']
+	))
+
+	// Add photo
+	const menuPic = document.createElement('div')
+	menuPic.classList.add('card-image')
+	menuPic.style.backgroundImage = `url(${menuItem['image']})`
+	card.append(menuPic)
+
+	// Photo accreditation
+	const accreditation = document.createElement('div')
+	accreditation.classList.add('accreditation')
+	accreditation.innerHTML = menuItem['credit']
+	card.append(accreditation)
+
+	// Menu item description
+	card.append(
+		generateElementWithInnerText(
+			'p',
+			menuItem['description'],
+			'menu-description'
+	))
+	
+	return card
+}
+
+const buildCardContainer = () => {
+	const cardContainer = document.createElement('div')
+	cardContainer.id = 'card-container'
+	MenuItems.forEach(menuItem =>{
+		cardContainer.append(buildCard(menuItem))
+	})
+	return cardContainer
+}
 
 const buildMenu = () => {
 	if (menuNav.classList.contains('selected')) return
     updateNavButtons(menuNav)
+	
+	content.append(buildCardContainer())
+
 	console.log ("Need to create buildMenu function")
 
 }

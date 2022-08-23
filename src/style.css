@@ -20,6 +20,18 @@
     --content-padding: 10px;
     --content-border-radius: 10px;
 
+    --card-containter-leftright-padding:5%;
+    /* Card formatting */
+    --card-height: 25em;
+    --card-width: 20em;
+
+    /* Card image formating */
+    --card-image-width: 95%;
+    --card-image-height: 60%;
+    --card-image-border: 1px solid rgba(0, 0, 0, 0.20);
+    --card-image-border-radius: 10px;
+    --card-image-background-size: auto 110%;
+    
     /* Scrollbar formatting */
     --scrollbar-width: 8px;
     --scrollbar-scroller: rgb(139, 128, 113);
@@ -111,7 +123,7 @@ nav {
     border-radius: var(--content-border-radius);
 }
 
-
+/* Homepage css */
 .homecard {
     list-style-type: none;
 }
@@ -127,6 +139,41 @@ nav {
 #logo {
     text-align: center;
 }
+
+/* Menu css */
+#card-container {
+    padding-left: var(--card-containter-leftright-padding);
+    padding-right: var(--card-containter-leftright-padding);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--card-width);
+    height: var(--card-height);
+}
+
+.card-image {
+    width: var(--card-image-width);
+    height: var(--card-image-height);
+    border: var(--card-image-border);
+    border-radius: var(--card-image-border-radius);
+    background-size: var(--card-image-background-size);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+
+.accreditation {
+    font-size: xx-small;
+}
+
+
 
 /* Footer styling */
 footer {
